@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Decodificador de Texto</title>
+</head>
+<body>
+<h1>Decodificador de Texto</h1>
+<textarea id="texto" rows="10" cols="50"></textarea>
+<br>
+<button onclick="codificar()">Criptografar</button>
+<button onclick="decodificar()">Descriptografar</button>
+<button onclick="copiar()">Copiar</button>
+<br>
+<textarea id="resultado" rows="10" cols="50"></textarea>
+
+<script>
+  function codificar() {
+    let texto = document.getElementById("texto").value;
+    let deslocamento = 3; // número fixo de deslocamento, pode ser alterado
+
+    let resultado = "";
+    for (let i = 0; i < texto.length; i++) {
+      let letra = texto[i];
+      if (letra.match(/[a-z]/i)) { // verifica se a letra é uma letra do alfabeto
+        let codigo = texto.charCodeAt(i); // obtém o código ASCII da letra
+        if (codigo >= 65 && codigo <= 90) { // verifica se é uma letra maiúscula
+          letra = String.fromCharCode(((codigo - 65 + deslocamento) % 26) + 65); // aplica a fórmula de César para letras maiúsculas
+        } else if (codigo >= 97 && codigo <= 122) { // verifica se é uma letra minúscula
+          letra = String.fromCharCode(((codigo - 97 + deslocamento) % 26) + 97); // aplica a fórmula de César para letras minúsculas
+        }
+      }
+      resultado += letra; // adiciona a letra ao resultado final
+    }
+    document.getElementById("resultado").value = resultado; // exibe o resultado no textarea "resultado"
+  }
+
+  function decodificar() {
+    let texto = document.getElementById("texto").value;
+    let deslocamento = 3; // número fixo de deslocamento, pode ser alterado
+
+    let resultado = "";
+    for (let i = 0; i < texto.length; i++) {
+      let letra = texto[i];
+      if (letra.match(/[a-z]/i)) { // verifica se a letra é uma letra do alfabeto
+        let codigo = texto.charCodeAt(i); // obtém o código ASCII da letra
+        if (codigo >= 65 && codigo <= 90) { // verifica se é uma letra maiúscula
+          letra = String.fromCharCode(((codigo - 65 - deslocamento + 26) % 26) + 65); // aplica a fórmula de César inversa para letras maiúsculas
+        } else if (codigo >= 97 && codigo <= 122) { // verifica se é uma letra minúscula
+          letra = String.fromCharCode(((codigo - 97 - deslocamento + 26) % 26) + 97); // aplica a fórmula de César inversa para letras minúsculas
+        }
+      }
+      resultado += letra; // adiciona a letra ao resultado final
+    }
+    document.getElementById("resultado").value = resultado; // exibe o resultado no textarea "resultado"
+  }
+  
+  function copiar() {
+    let resultado = document.getElementById("resultado").value;
+    navigator.clipboard.writeText(resultado);
+  }
+</script>
+</body>
+</html>
